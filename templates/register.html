@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Materiales Primaria</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 500px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .register-header h2 { font-size: 2.3rem; color: #2c3e50; margin-bottom: 10px; }
+        .form-group { margin-bottom: 25px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+        .form-group input, .form-group select { 
+            width: 100%; height: 55px; padding: 0 20px; border: 2px solid #e1e8ed; 
+            border-radius: 12px; font-size: 16px; background: white; color: black;
+        }
+        .btn-register { 
+            width: 100%; height: 55px; background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white; border: none; border-radius: 12px; font-size: 1.1rem; 
+            font-weight: 600; cursor: pointer; margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-card">
+        <div class="register-header">
+            <h2>📝 Nuevo Registro</h2>
+            <p>Registra un nuevo usuario del colegio</p>
+        </div>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label>🏫 Nombre del Colegio</label>
+                <input type="text" name="nombre_colegio" required placeholder="CEIP San Pablo">
+            </div>
+            <div class="form-group">
+                <label>👤 Nombre del Alumno</label>
+                <input type="text" name="nombre_alumno" required placeholder="Jorge Martínez">
+            </div>
+            <div class="form-group">
+                <label>📧 Email del Alumno</label>
+                <input type="email" name="email" required placeholder="alumno@colegio.es">
+            </div>
+            <div class="form-group">
+                <label>📚 Curso del Alumno</label>
+                <select name="curso" required>
+                    <option value="">Selecciona curso...</option>
+                    <option>1º Primaria</option>
+                    <option>2º Primaria</option>
+                    <option>3º Primaria</option>
+                    <option>4º Primaria</option>
+                    <option>5º Primaria</option>
+                    <option>6º Primaria</option>
+                    <option>Profesor</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>🔒 Contraseña</label>
+                <input type="password" name="password" required placeholder="•••••••••••">
+            </div>
+            <button type="submit" class="btn-register">✅ Crear Usuario</button>
+        </form>
+        
+        <p style="margin-top: 20px;">
+            ¿Ya tienes cuenta? <a href="/login" style="color: #3498db;">Inicia sesión</a>
+        </p>
+    </div>
+</body>
+</html>

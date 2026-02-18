@@ -1,0 +1,56 @@
+@'
+{% extends "base.html" %}
+{% block title %}Dashboard - Inventario{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <header class="dashboard-header">
+        <h1>📊 Inventario Materiales</h1>
+        <p>{{ user.nombre }} - {{ materiales|length }} materiales registrados</p>
+    </header>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <h3>1º Primaria</h3>
+            <span class="stat-number">{{ materiales|selectattr("3", "equalto", "1º Primaria")|list|length }}</span>
+        </div>
+        <div class="stat-card">
+            <h3>Total</h3>
+            <span class="stat-number">{{ materiales|length }}</span>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Asignatura</th>
+                    <th>Material</th>
+                    <th>Cantidad</th>
+                    <th>Curso</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mat in materiales %}
+                <tr>
+                    <td>{{ mat[0] }}</td>
+                    <td>{{ mat[1] }}</td>
+                    <td><span class="badge">{{ mat[2] }}</span></td>
+                    <td class="curso">{{ mat[3] }}</td>
+                    <td>
+                        <button class="btn-small btn-edit">Editar</button>
+                        <button class="btn-small btn-delete">Eliminar</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="actions">
+        <button class="btn-primary">+ Nuevo Material</button>
+    </div>
+</div>
+{% endblock %}
+'@ | Out-File -FilePath "templates/dashboard.html" -Encoding UTF8

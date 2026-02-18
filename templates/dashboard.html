@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - {{ user.nombre_alumno }}</title>
+    <style>
+        body { font-family: Arial; padding: 50px; background: #f0f2f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .welcome { background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .btn-logout { background: #e74c3c; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #3498db; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome">
+            <h1>🎯 Dashboard {{ user.nombre_alumno }}</h1>
+            <p><strong>Curso:</strong> {{ user.curso }} | <strong>Colegio:</strong> {{ user.nombre_colegio }}</p>
+            <a href="/logout" class="btn-logout">🚪 Cerrar Sesión</a>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>📝 Mis Notas</h3>
+                <table>
+                    <tr><th>Asignatura</th><th>1º Trim</th><th>2º Trim</th><th>Media</th></tr>
+                    <tr><td>Matemáticas</td><td>8.5</td><td>7.2</td><td>7.9</td></tr>
+                    <tr><td>Lengua</td><td>6.8</td><td>8.1</td><td>7.5</td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>📊 Asistencia</h3>
+                <table>
+                    <tr><th>Fecha</th><th>Estado</th></tr>
+                    <tr><td>18/02/2026</td><td>✅ Presente</td></tr>
+                    <tr><td>17/02/2026</td><td>✅ Presente</td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>📢 Mensajes Profesor</h3>
+                <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px;">
+                    <strong>Profe María:</strong> Repasad tablas del 1-10 para mañana 📚
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

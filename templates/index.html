@@ -157,22 +157,24 @@
 </head>
 <body>
     <nav>
-        <div class="nav-container">
-            <a href="/" class="nav-logo">📚 Materiales Primaria</a>
-            <div class="nav-links">
-                {% if session.user %}
-                    <span class="user-info">
-                        👋 {{ session.user.nombre_alumno }} ({{ session.user.curso }})
-                    </span>
-                    <a href="/dashboard">📋 Inventario</a>
-                    <a href="/logout">🚪 Salir</a>
-                {% else %}
-                    <a href="/login">🔐 Login</a>
-                    <a href="/register">📝 Registro</a>
-                {% endif %}
-            </div>
+    <nav style="position: fixed; top: 0; left: 0; right: 0; background: rgba(44,62,80,0.95); padding: 1rem 2rem; z-index: 1000;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+        <a href="/" style="font-size: 1.5rem; font-weight: bold; color: white; text-decoration: none;">📚 Materiales</a>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            {% if session.user %}
+                <span style="background: rgba(52,152,219,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                    👋 {{ session.user.nombre_alumno }}
+                </span>
+                <a href="/dashboard" style="background: #3498db; color: white; padding: 0.7rem 1.5rem; border-radius: 25px; text-decoration: none;">📋 Dashboard</a>
+                <a href="/logout" style="background: #e74c3c; color: white; padding: 0.7rem 1.5rem; border-radius: 25px; text-decoration: none; font-weight: 600;">🚪 Salir</a>
+            {% else %}
+                <a href="/login" style="background: #3498db; color: white; padding: 0.7rem 1.5rem; border-radius: 25px; text-decoration: none;">🔐 Login</a>
+                <a href="/register" style="background: #27ae60; color: white; padding: 0.7rem 1.5rem; border-radius: 25px; text-decoration: none;">📝 Registro</a>
+            {% endif %}
         </div>
-    </nav>
+    </div>
+</nav>
+
     
     <div class="hero">
         <h1>🎒 Gestión Completa de Materiales</h1>
@@ -205,4 +207,4 @@
             <div class="feature">
                 <h3>🔒 Seguridad Profesional</h3>
                 <p>Autenticación segura con PostgreSQL + contraseñas encriptadas</p>
-            </
+            

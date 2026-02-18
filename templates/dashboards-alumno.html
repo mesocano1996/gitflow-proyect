@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Alumno - {{ user.nombre_alumno }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; color: #333; }
+        
+        nav { 
+            position: fixed; top: 0; left: 0; right: 0; 
+            background: #2c3e50; color: white; padding: 1rem 2rem; z-index: 1000; 
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-user { background: rgba(52,152,219,0.2); padding: 0.5rem 1rem; border-radius: 20px; }
+        
+        .container { max-width: 1200px; margin: 100px auto 2rem; padding: 0 2rem; }
+        
+        .welcome { text-align: center; margin-bottom: 3rem; }
+        .welcome h1 { color: #2c3e50; margin-bottom: 0.5rem; }
+        .welcome p { color: #7f8c8d; font-size: 1.1rem; }
+        
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .card { background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .card h3 { color: #2c3e50; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #3498db; color: white; font-weight: 600; }
+        .status-presente { background: #d5f4e6; color: #27ae60; padding: 4px 8px; border-radius: 12px; }
+        .status-ausente { background: #fdf2f2; color: #e74c3c; padding: 4px 8px; border-radius: 12px; }
+        
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: all 0.3s; }
+        .btn-logout { background: #e74c3c; color: white; }
+        .btn-logout:hover { background: #c0392b; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/dashboard" style="color: white; font-size: 1.5rem; font-weight: bold; text-decoration: none;">📚 Materiales Primaria</a>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span class="nav-user">👋 {{ user.nombre_alumno }} ({{ user.curso }})</span>
+                <a href="/logout" class="btn btn-logout">🚪 Salir</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome">
+            <h1>🎯 Dashboard {{ user.nombre_alumno }}</h1>
+            <p>{{ user.curso }} | {{ user.nombre_colegio }}</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- NOTAS -->
+            <div class="card">
+                <h3>📝 Mis Notas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asignatura</th>
+                            <th>1º Trimestre</th>
+                            <th>2º Trimestre</th>
+                            <th>3º Trimestre</th>
+                            <th>Media</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mates</td>
+                            <td>8.5</td>
+                            <td>7.2</td>
+                            <td>9.0</td>
+                            <td><strong>8.2</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Lengua</td>
+                            <td>6.8</td>
+                            <td>7.5</td>
+                            <td>8.1</td>
+                            <td><strong>7.5</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ASISTENCIA -->
+            <div class="card">
+                <h3>📊 Asistencia</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Mañana</th>
+                            <th>Tarde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>18/02/2026</td>
+                            <td><span class="status-presente">Presente</span></td>
+                            <td><span class="status-presente">Presente</span></td>
+                        </tr>
+                        <tr>
+                            <td>17/02/2026</td>
+                            <td><span class="status-presente">Presente</span></td>
+                            <td><span class="status-ausente">Ausente</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- MENSAJES PROFESOR -->
+            <div class="card">
+                <h3>📢 Mensajes del Profesor</h3>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <div style="background: #e8f4fd; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                        <strong>Profe María:</strong> Recordad repasar las tablas del 1 al 10 para el control de mañana 📚
+                        <small style="float: right; opacity: 0.7;">18/02 - 10:30</small>
+                    </div>
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                        <strong>Profe Luis:</strong> Tarea de Lengua: Redactar 10 oraciones con adjetivos ✍️
+                        <small style="float: right; opacity: 0.7;">17/02 - 16:45</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

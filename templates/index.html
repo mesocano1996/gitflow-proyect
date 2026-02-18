@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiales Primaria - Inicio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(44,62,80,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 3rem;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(52,152,219,0.2);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 120px 2rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .hero .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        
+        .cta {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 18px 36px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn-login {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-register {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .features {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        
+        .user-info {
+            position: fixed;
+            top: 20px;
+            right: 3rem;
+            background: rgba(52,152,219,0.9);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .cta { flex-direction: column; align-items: center; }
+            .nav-links a { margin-left: 1rem; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-logo">📚 Materiales Primaria</a>
+            <div class="nav-links">
+                {% if session.user %}
+                    <span class="user-info">
+                        👋 {{ session.user.nombre_alumno }} ({{ session.user.curso }})
+                    </span>
+                    <a href="/dashboard">📋 Inventario</a>
+                    <a href="/logout">🚪 Salir</a>
+                {% else %}
+                    <a href="/login">🔐 Login</a>
+                    <a href="/register">📝 Registro</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <h1>🎒 Gestión Completa de Materiales</h1>
+        <p class="subtitle">
+            Sistema profesional para colegios de Primaria en España<br>
+            Control de inventario, usuarios y materiales didácticos
+        </p>
+        
+        <div class="cta">
+            {% if not session.user %}
+                <a href="/login" class="btn-primary btn-login">🔐 Iniciar Sesión</a>
+                <a href="/register" class="btn-primary btn-register">📝 Registrarse Gratis</a>
+            {% else %}
+                <a href="/dashboard" class="btn-primary btn-login">📊 Ver Mi Inventario</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="features">
+        <h2>✨ Características Principales</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <h3>📊 Inventario Completo</h3>
+                <p>Control de materiales por curso y asignatura con datos reales de colegios españoles</p>
+            </div>
+            <div class="feature">
+                <h3>👥 Gestión de Usuarios</h3>
+                <p>Registro de alumnos, profesores y administradores con perfiles personalizados</p>
+            </div>
+            <div class="feature">
+                <h3>🔒 Seguridad Profesional</h3>
+                <p>Autenticación segura con PostgreSQL + contraseñas encriptadas</p>
+            </

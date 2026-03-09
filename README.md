@@ -57,7 +57,7 @@ gitflow-proyect/
 
 text
 
-## 3. Entornos virtuales / contenedores de desarrollo 
+3. Entornos virtuales / contenedores de desarrollo 
 
 El desarrollo se ha aislado usando un entorno virtual de Python (venv) para no mezclar dependencias con otros proyectos.
 
@@ -239,3 +239,4 @@ Con esto se completa un ciclo de SECDEVOPS a pequeña escala: desarrollo aislado
 Tests automáticos:
 - 4 pytest → Login + API + Dashboard
 - Docker build
+

@@ -25,7 +25,7 @@ Simular un ciclo de desarrollo seguro (SECDEVOPS) con:
 
 2. Estructura del proyecto
 
-
+``` text
 gitflow-proyect/
 ├── app.py                   # Frontend Flask (web)
 ├── backend_api.py           # API backend
@@ -55,7 +55,7 @@ gitflow-proyect/
     ├── dashboard.html # Alumno (notas+asistencia API)
     └── dashboard-admin.html # Admin (mismo + extras)
 
-
+``` text
 
 3. Entornos virtuales / contenedores de desarrollo 
 
@@ -239,6 +239,7 @@ Con esto se completa un ciclo de SECDEVOPS a pequeña escala: desarrollo aislado
 Tests automáticos:
 - 4 pytest → Login + API + Dashboard
 - Docker build
+
 
 
 

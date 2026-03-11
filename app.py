@@ -30,18 +30,29 @@ class Usuario(db.Model):
 
 with app.app_context():
     db.create_all()
-    if not Usuario.query.filter_by(email="admin@colegio.es").first():
+    
+    # DEBUG + GARANTIZA ADMIN
+    admin = Usuario.query.filter_by(email="admin@colegio.es").first()
+    print(f"*** DEBUG STARTUP: Admin existe? {admin is not None}, Rol: {admin.rol if admin else 'NO EXISTE'} ***")
+    
+    # SI NO EXISTE O ROL MALO, RECREA
+    if not admin or admin.rol != "admin":
+        if admin:
+            db.session.delete(admin)
         admin = Usuario(
             email="admin@colegio.es",
-            nombre_colegio="Colegio Central",
-            nombre_alumno="Admin Sistema",
+            nombre_colegio="CEIP San Pablo",  
+            nombre_alumno="Admin CEIP",
             curso="N/A",
             rol="admin",
             password_hash=generate_password_hash("admin123"),
         )
         db.session.add(admin)
         db.session.commit()
-
+        print("*** ✅ Admin RECREADO con rol='admin' ***")
+    else:
+        print("*** ✅ Admin OK ***")
+        
 
 def get_user():
     return session.get("user")
@@ -141,6 +152,47 @@ def dashboard():
         asistencia = []
     
     return render_template("dashboard.html", user=session['user'], notas=notas, asistencia=asistencia)
+@app.route("/admin")
+def admin_panel():
+    if 'user' not in session or session['user']['rol'] != 'admin':
+        flash("❌ Acceso denegado. Solo admins.", "error")
+        return redirect(url_for('dashboard'))
+    
+    # Aquí consultas BD para listar usuarios, etc.
+    usuarios = Usuario.query.all()
+    return render_template("dashboard-admin.html", user=session['user'], usuarios=usuarios)
+@app.route("/admin/notas/<alumno_email>", methods=["GET", "POST"])
+def admin_notas(alumno_email):
+    if session.get('user', {}).get('rol') != 'admin':
+        flash("❌ Solo admins", "error")
+        return redirect(url_for('admin_panel'))
+    
+    alumno = Usuario.query.filter_by(email=alumno_email).first()
+    if not alumno:
+        flash("❌ Alumno no existe", "error")
+        return redirect(url_for('admin_panel'))
+    
+    # Trae notas del backend
+    headers = {"X-API-TOKEN": API_TOKEN}
+    notas_resp = requests.get(f"{API_URL}/api/notas/{alumno_email}", headers=headers, timeout=5)
+    notas = notas_resp.json() if notas_resp.ok else {}
+    
+    if request.method == "POST":
+        nuevas_notas = {k: v for k, v in request.form.items() if k.startswith('nota_')}
+        resp = requests.post(f"{API_URL}/api/notas/{alumno_email}", json=nuevas_notas, headers=headers, timeout=5)
+        if resp.status_code == 200:
+            flash("✅ Notas guardadas", "success")
+            notas_resp = requests.get(f"{API_URL}/api/notas/{alumno_email}", headers=headers)
+            notas = notas_resp.json()
+        else:
+            flash("❌ Error backend", "error")
+    
+    return render_template("admin_notas.html", user=session['user'], alumno=alumno, notas=notas)
+
+@app.route("/usuarios")
+def list_usuarios():
+    users = Usuario.query.all()
+    return "<br>".join([f"{u.email} | {u.nombre_colegio} | {u.rol}" for u in users])
 
 @app.route("/logout")
 def logout():
@@ -151,3 +203,11 @@ def logout():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
+@app.route("/debug-admin")
+def debug_admin():
+    admin = Usuario.query.filter_by(email="admin@colegio.es").first()
+    if admin:
+        return f"✅ Admin OK - Email: {admin.email}, Rol: '{admin.rol}'<br>Hash: {admin.password_hash[:20]}..."
+    return "❌ Admin NO existe en BD. Recreando..."
+

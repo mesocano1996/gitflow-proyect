@@ -25,7 +25,15 @@ Simular un ciclo de desarrollo seguro (SECDEVOPS) con:
 
 2. Estructura del proyecto
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+``` text
+=======
+```bash
+>>>>>>> 6614d0d224968eddf9b102a819d1110df5e53acf
+=======
 ```
+>>>>>>> b465dd7a735cd5a6656b7e0430b3c543d98d22ac
 gitflow-proyect/
 ├── app.py                   # Frontend Flask (web)
 ├── backend_api.py           # API backend
@@ -47,11 +55,33 @@ gitflow-proyect/
     ├── test_auth.py
     └── test_api.py
     ├── test_dash_api.py
+<<<<<<< HEAD
+│ └── test_api_auth.py
+ templates/ # HTML Bootstrap 5
+    ├── base.html # Layout común + navbar
+    ├── index.html # Home público
+    ├── login.html # Formulario login
+    ├── register.html # Formulario registro
+    ├── dashboard.html # Alumno (notas+asistencia API)
+    └── dashboard-admin.html # Admin (mismo + extras)
+```
+ 
+=======
     └── test_api_auth.py
+>>>>>>> a3514c674cc94aecb22547141df74ac83d69c832
 
+<<<<<<< HEAD
+=======
 ````
+>>>>>>> b465dd7a735cd5a6656b7e0430b3c543d98d22ac
 
-## 3. Entornos virtuales / contenedores de desarrollo 
+
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6614d0d224968eddf9b102a819d1110df5e53acf
+3. Entornos virtuales / contenedores de desarrollo 
 
 El desarrollo se ha aislado usando un entorno virtual de Python (venv) para no mezclar dependencias con otros proyectos.
 
@@ -76,9 +106,9 @@ Contraseñas almacenadas hasheadas con generate_password_hash y validadas con ch
 
 Dos tipos de usuario:
 
-admin (creado automáticamente al iniciar la aplicación).
+- admin (creado automáticamente al iniciar la aplicación).
 
-alumno (usuarios registrados desde la web).
+- alumno (usuarios registrados desde la web).
 
 Flujo principal:
 
@@ -122,14 +152,14 @@ Devuelven datos en formato JSON (datos de demostración definidos en memoria).
 
 Todos los endpoints /api/... están protegidos por un token estático:
 
-El frontend envía el encabezado X-API-TOKEN.
+- El frontend envía el encabezado X-API-TOKEN.
 
-Si el token no coincide, la API devuelve 401 Unauthorized.
+- Si el token no coincide, la API devuelve 401 Unauthorized.
 
 Con esto se cumple el requisito de tener un front Flask que se comunique con un back a través de una API utilizando un mecanismo seguro.
 
 6. Aplicaciones en contenedores
-
+   
 Se han creado dos imágenes Docker:
 ```
 Dockerfile.front → imagen para el frontend Flask.
@@ -137,8 +167,13 @@ Dockerfile.front → imagen para el frontend Flask.
 Dockerfile.api → imagen para el backend API.
 ```
 El fichero docker-compose.yml orquesta ambos servicios:
+<<<<<<< HEAD
+```
+
+=======
 
 ```
+>>>>>>> b465dd7a735cd5a6656b7e0430b3c543d98d22ac
 docker-compose up --build
 ```
 Configuración típica:
@@ -224,7 +259,7 @@ pytest
 Contenido principal:
 ```
 tests/test_auth.py
-
+```
 Pruebas del flujo de autenticación en app.py mediante test_client():
 ```
 Login correcto con credenciales válidas.
@@ -309,6 +344,20 @@ Tests automáticos:
 - 4 pytest → Login + API + Dashboard
 - Docker build
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+<<<<<<< HEAD
 
 
 
+
+=======
+>>>>>>> 6614d0d224968eddf9b102a819d1110df5e53acf
+=======
+>>>>>>> b465dd7a735cd5a6656b7e0430b3c543d98d22ac
+=======
+
+
+
+>>>>>>> a3514c674cc94aecb22547141df74ac83d69c832

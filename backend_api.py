@@ -49,9 +49,16 @@ def require_token():
         if not check_token():
             return jsonify({"error": "Unauthorized"}), 401
 
-@app.route("/api/notas/<email>")
-def api_notas(email):
-    return jsonify(get_notas_usuario(email))
+@app.route("/api/notas/<email>", methods=["POST"])
+def update_notas(email):
+    if request.headers.get("X-API-TOKEN") != API_TOKEN:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    global notas_demo
+    notas_demo[email] = request.json
+    return jsonify({"status": "updated", "notas": notas_demo[email]})
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5001, debug=True)
 
 @app.route("/api/asistencia/<email>")
 def api_asistencia(email):
@@ -59,3 +66,4 @@ def api_asistencia(email):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
+

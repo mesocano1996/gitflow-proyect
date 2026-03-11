@@ -1,34 +1,60 @@
-name: CI Tests + Docker
+name: CI Tests + Docker OWASP
 
-on: [push, pull_request]
+on: 
+  push: { branches: [main, develop] }
+  pull_request: { branches: [main] }
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Python
+    - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        
+    
+    - name: Cache pip
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+    
     - name: Install dependencies
       run: |
-        pip install pytest requests flask
-        
-    - name: Run tests
+        pip install -r requirements.txt pytest pytest-cov pytest-flask
+    
+    - name: Run pytest + coverage
       run: |
-        python -m pytest test/ -v
-        
+        pytest tests/ -v --cov=app --cov-report=xml --tb=no -k "not e2e"
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v4
+
   docker:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     
-    - name: Build Docker
-      run: docker-compose build
-      
-    - name: Test Docker
-      run: docker-compose up -d && sleep 10 && curl http://localhost:8000
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build & Test Docker
+      run: |
+        docker-compose build frontend backend
+        docker-compose up -d
+        sleep 15
+        # Tests salud
+        curl -f http://localhost:5000 || exit 1
+        curl -f -H "X-API-TOKEN: super-api-token-123" http://localhost:5001/api/notas/test@test.es || exit 1
+        docker-compose down
+    
+    # OWASP Security Scan
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: pre-commit/action@v3
+      with:
+        extra_args: bandit -r . semgrep --config=auto

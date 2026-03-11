@@ -25,7 +25,11 @@ Simular un ciclo de desarrollo seguro (SECDEVOPS) con:
 
 2. Estructura del proyecto
 
+<<<<<<< HEAD
 ``` text
+=======
+```bash
+>>>>>>> 6614d0d224968eddf9b102a819d1110df5e53acf
 gitflow-proyect/
 ├── app.py                   # Frontend Flask (web)
 ├── backend_api.py           # API backend
@@ -54,19 +58,26 @@ gitflow-proyect/
     ├── register.html # Formulario registro
     ├── dashboard.html # Alumno (notas+asistencia API)
     └── dashboard-admin.html # Admin (mismo + extras)
+```
+ 
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6614d0d224968eddf9b102a819d1110df5e53acf
 3. Entornos virtuales / contenedores de desarrollo 
 
 El desarrollo se ha aislado usando un entorno virtual de Python (venv) para no mezclar dependencias con otros proyectos.
 
 Pasos usados:
-
+```
 python -m venv .venv
 .\.venv\Scripts\Activate
 pip install -r requirements.txt
-
+```
 4. Autenticación del usuario y autorización 
 
 La aplicación implementa:
@@ -79,9 +90,9 @@ Contraseñas almacenadas hasheadas con generate_password_hash y validadas con ch
 
 Dos tipos de usuario:
 
-admin (creado automáticamente al iniciar la aplicación).
+- admin (creado automáticamente al iniciar la aplicación).
 
-alumno (usuarios registrados desde la web).
+- alumno (usuarios registrados desde la web).
 
 Flujo principal:
 
@@ -99,7 +110,7 @@ La aplicación se divide en dos componentes:
 
 5.1 Frontend (app.py)
 Rutas principales:
-
+```
 / – página de inicio.
 
 /register – registro de alumnos.
@@ -111,36 +122,36 @@ Rutas principales:
 /logout – cierre de sesión.
 
 Plantillas Jinja2 (templates/*.html) para el contenido HTML.
-
+```
 Obtiene las notas y la asistencia del usuario llamando a la API backend.
 
 5.2 Backend API (backend_api.py)
 Endpoints de ejemplo:
-
+```
 GET /api/notas/<email>
 
 GET /api/asistencia/<email>
-
+```
 Devuelven datos en formato JSON (datos de demostración definidos en memoria).
 
 Todos los endpoints /api/... están protegidos por un token estático:
 
-El frontend envía el encabezado X-API-TOKEN.
+- El frontend envía el encabezado X-API-TOKEN.
 
-Si el token no coincide, la API devuelve 401 Unauthorized.
+- Si el token no coincide, la API devuelve 401 Unauthorized.
 
 Con esto se cumple el requisito de tener un front Flask que se comunique con un back a través de una API utilizando un mecanismo seguro.
 
 6. Aplicaciones en contenedores
-
+   
 Se han creado dos imágenes Docker:
-
+```
 Dockerfile.front → imagen para el frontend Flask.
 
 Dockerfile.api → imagen para el backend API.
 
 El fichero docker-compose.yml orquesta ambos servicios:
-
+```
 
 docker-compose up --build
 Configuración típica:
@@ -151,7 +162,7 @@ Backend API: http://127.0.0.1:5001 (puerto host 5001 → contenedor 5001).
 
 Dentro de la red de Docker, el frontend se comunica con el backend usando el nombre de servicio backend en el puerto 5001.
 
-7. 7. OWASP Top 10 (web y APIs).
+7. OWASP Top 10 (web y APIs).
 
 En owasp-seguridad.md se documenta cómo se han tenido en cuenta varios puntos de OWASP Top 10 para aplicaciones web y APIs. Resumen:
 
@@ -180,9 +191,9 @@ La API devuelve respuestas JSON simples ({"error": "Unauthorized"}) sin detalles
 pytest
 
 Contenido principal:
-
+```
 tests/test_auth.py
-
+```
 Pruebas del flujo de autenticación en app.py mediante test_client():
 
 Login correcto con credenciales válidas.
@@ -266,7 +277,10 @@ Tests automáticos:
 - Docker build
 
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 6614d0d224968eddf9b102a819d1110df5e53acf

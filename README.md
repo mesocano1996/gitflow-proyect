@@ -86,7 +86,7 @@ Al autenticarse, se guarda en session un diccionario con email, nombre_alumno, c
 
 Las vistas indican qué usuario se ha identificado.
 
-Si el usuario tiene rol admin, el dashboard utiliza una plantilla distinta (dashboard-admin.html) y un estilo diferenciado (color de fondo / tarjeta distinta).
+Si el usuario tiene rol admin, el dashboard utiliza una plantilla distinta (dashboard-admin.html) y un estilo diferenciado (color de fondo / tarjeta distinta), además acceso a la lista de alumnos de su curso (admin.html).
 
 El acceso a /dashboard comprueba siempre que haya sesión; si no la hay, redirige a /login.
 
@@ -308,6 +308,7 @@ Con esto se completa un ciclo de SECDEVOPS a pequeña escala: desarrollo aislado
 Tests automáticos:
 - 4 pytest → Login + API + Dashboard
 - Docker build
+
 
 
 

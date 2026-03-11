@@ -1,0 +1,26 @@
+name: CI Tests OWASP
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install
+      run: pip install -r requirements.txt pytest
+    
+    - name: Test Frontend
+      run: pytest tests/ -v
+    
+    - name: Test Backend
+      run: |
+        python backend_api.py &
+        sleep 3
+        curl -H "X-API-TOKEN: super-api-token-123" http://localhost:5001/api/notas/test

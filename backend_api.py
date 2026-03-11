@@ -59,3 +59,10 @@ def api_asistencia(email):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
+@api.route("/api/notas/<email>", methods=["POST"])
+def update_notas(email):
+    if not check_token(request):
+        return jsonify({"error": "Unauthorized"}), 401
+    global notas_demo  # Tu dict
+    notas_demo[email] = request.json
+    return jsonify({"status": "updated", "notas": notas_demo[email]})

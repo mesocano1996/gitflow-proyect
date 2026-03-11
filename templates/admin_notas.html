@@ -1,0 +1,15 @@
+<h2>📝 Notas {{ alumno.nombre_alumno }} ({{ alumno.curso }})</h2>
+<a href="/admin">← Admin</a>
+
+<form method="POST">
+    {% for asignatura, nota in notas.items() %}
+    <label>{{ asignatura }}: 
+        <input name="nota_{{ asignatura }}" value="{{ nota }}" style="width:100px;">
+    </label><br><br>
+    {% endfor %}
+    <button type="submit" style="padding:10px 20px; background:#4caf50; color:white;">💾 GUARDAR</button>
+</form>
+
+<h3>Notas Actuales:</h3>
+<pre>{{ notas }}</pre>
+

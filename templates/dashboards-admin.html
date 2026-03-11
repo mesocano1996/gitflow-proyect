@@ -1,27 +1,70 @@
-{% extends "base.html" %}
-{% block title %}Dashboard Administrador{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Admin</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .admin { background-color: #e8f5e8; }
+        .alumno { background-color: #f0f8ff; }
+        .btn-notas { 
+            background: #4caf50; 
+            color: white; 
+            padding: 8px 12px; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold;
+        }
+        .btn-notas:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Dashboard Administrador</h1>
+    <p><strong>{{ user.nombre_alumno }}</strong> - {{ user.nombre_colegio }}</p>
+    <nav>
+        <a href="/dashboard">← Dashboard Personal</a> | 
+        <a href="/logout">Cerrar Sesión</a> | 
+        <a href="/debug">🔍 Debug</a>
+    </nav>
 
-{% block content %}
-<div class="p-4 bg-dark text-white rounded">
-    <h2 class="mb-3">🛠 Panel de administración</h2>
-    <p>Usuario: {{ user.nombre_alumno }} ({{ user.email }})</p>
-    <p>Rol: {{ user.rol }}</p>
+    <h2>Lista de Usuarios</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Alumno</th>
+            <th>Curso</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+        {% for u in usuarios %}
+        <tr class="{{ 'admin' if u.rol == 'admin' else 'alumno' }}">
+            <td>{{ u.id }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.nombre_alumno }}</td>
+            <td>{{ u.curso }}</td>
+            <td><strong>{{ u.rol.upper() }}</strong></td>
+            <td>
+                {% if u.rol == 'alumno' %}
+                <a href="/admin/notas/{{ u.email }}" class="btn-notas">📝 Notas</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
-    <hr>
-    <h4>Resumen rápido (demo)</h4>
-    <ul>
-        <li>Número de alumnos registrados: {{ usuarios|length if usuarios is defined else '2 (demo)' }}</li>
-        <li>API protegida con token estático.</li>
-        <li>Entorno preparado para Docker y CI.</li>
-    </ul>
-</div>
+    {% if not usuarios %}
+    <div style="background: #fff3cd; padding: 15px; margin: 20px 0; border-radius: 5px;">
+        <p>📝 <a href="/register">Registra alumnos</a> para gestionarlos.</p>
+    </div>
+    {% endif %}
 
-<h4 class="mt-4 text-white">Notas (vista admin para su propio usuario)</h4>
-<ul class="text-white">
-    {% for n in notas %}
-        <li>{{ n.asignatura }}: {{ n.nota }}</li>
-    {% else %}
-        <li>No hay notas disponibles.</li>
-    {% endfor %}
-</ul>
-{% endblock %}
+    <footer style="margin-top: 30px; color: gray;">
+        <p>Admin solo ve/edita su colegio: {{ user.nombre_colegio }}</p>
+    </footer>
+</body>
+</html>

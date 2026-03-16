@@ -1,14 +1,26 @@
-name: CI/CD OWASP Final
+name: CI/CD 4 Pytests OWASP
 
-on: [push, pull_request]  # ← CORRE EN TODAS las ramas
+on: [push, pull_request]
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     
-    - name: Check Python syntax
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
       run: |
-        python3 -c "import sys; print('Python OK')" || true
-        find . -name "*.py" -print | head -5 || echo "No Python files"
+        pip install flask pytest pytest-cov
+    
+    - name: Run 4 pytests
+      run: pytest test/ -v --tb=no
+      
+    - name: List tests passed
+      if: success()
+      run: |
+        pytest test/ --collect-only -q | grep test_ | wc -l
+        echo "✅ 4 pytests ejecutados!"

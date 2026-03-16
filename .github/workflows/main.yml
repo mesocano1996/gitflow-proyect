@@ -1,0 +1,58 @@
+name: CI/CD Tests OWASP
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      # Backend API como servicio
+      backend:
+        image: python:3.11-slim
+        ports:
+          - 5001:5001
+        options: >-
+          --health-cmd "curl http://localhost:5001/api/notas/test || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt pytest pytest-cov requests
+        
+    - name: Run Backend API
+      run: |
+        python backend_api.py &
+        sleep 5  # Espera startup
+        
+    - name: Run Tests
+      run: |
+        pytest tests/ -v --cov=app --cov-report=xml --tb=no
+        
+    - name: Upload coverage
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Bandit security scan
+      uses: pre-commit/action@v3.0.1
+      with:
+        extra_args: bandit -r . --format json

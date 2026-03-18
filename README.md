@@ -196,7 +196,7 @@ if __name__ == "__main__":
 7.2 API
 Autenticación de la API
 Todos los endpoints /api/... exigen el encabezado X-API-TOKEN. Si falta o es incorrecto, la API devuelve 401 Unauthorized.
-# backend_api.py
+backend_api.py
 ```
 API_TOKEN = "super-api-token-123"
 
